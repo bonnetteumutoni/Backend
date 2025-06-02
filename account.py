@@ -1,4 +1,4 @@
-
+import datetime
 class Transaction:
     def __init__(self, amount, narration, transaction_type):
         self.amount = amount
@@ -17,7 +17,7 @@ class Account:
         self.loan = 0
         self.loan_status = "inactive"
         self.is_frozen = False
-        self.minimum_balance = 100
+        self.minimum_balance = 200
         self.closed = False
         self.deposit_count = 0
 
@@ -30,24 +30,24 @@ class Account:
         return "Deposit amount must be greater than 0"
 
     def withdraw(self, amount):
-        fee = amount * 0.02
-        total_deduction = amount + fee
+        withdraw_fee = amount * 0.03
+        total_deduction = amount + withdraw_fee
         if self.is_frozen:
-            return "Withdrawal denied: Account is frozen"
+            return "Withdrawal denied, Account is frozen"
         if total_deduction > self.__balance:
-            return "Insufficient balance for withdrawal and fee"
+            return "You don't have enough balance for withdrawal and fee"
         if self.__balance - total_deduction < self.minimum_balance:
             return f"Withdrawal would breach minimum balance of {self.minimum_balance}"
         self.__balance -= total_deduction
         self.__transactions.append(Transaction(amount, "Cash withdrawal", "withdrawal"))
-        self.__transactions.append(Transaction(fee, "Withdrawal fee", "fee"))
-        return f"Withdrawn {amount} with fee {fee}. New balance is {self.__balance}"
+        self.__transactions.append(Transaction(withdraw_fee, "Withdrawal fee", "withdraw_fee"))
+        return f"Withdrawn {amount} with fee {withdraw_fee}. New balance is {self.__balance}"
 
     def transfer_funds(self, account, amount):
-        transfer_fee = 10
+        transfer_fee = 30
         total = amount + transfer_fee
         if self.is_frozen:
-            return "Transfer denied: Account is frozen"
+            return "Transfer denied, Account is frozen"
         if total > self.__balance:
             return "Transfer failed due to insufficient funds (including transfer fee)"
         self.__balance -= total
@@ -134,7 +134,6 @@ class Account:
         self.loan_status = "inactive"
         self.closed = True
         return "Account closed and all funds cleared"
-
 
 
 
