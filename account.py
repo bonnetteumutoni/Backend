@@ -75,6 +75,8 @@ class Account:
         self.deposit(amount)
         self.__transactions.append(Transaction(amount, "Loan approved and deposited", "loan"))
         return f"Loan approved. Amount: {amount}. New balance is {self.__balance}"
+
+
     def repay_loan(self, amount):
         if amount <= 0:
             return "Invalid repayment amount"
@@ -88,9 +90,12 @@ class Account:
             self.loan = 0
             self.loan_status = "inactive"
         return f"Repaid {repay_amount}. Remaining loan: {self.loan}"
-    def change_account_ownership(self, new_owner):
+
+
+    def change_account_owner(self, new_owner):
         self.name = new_owner
         return f"Account ownership transferred to {new_owner}"
+
     def apply_interest(self):
         if self.__balance <= 0:
             return "No interest earned on zero or negative balance"
@@ -98,25 +103,30 @@ class Account:
         self.__balance += interest
         self.__transactions.append(Transaction(interest, "Interest Applied", "interest"))
         return f"Interest of {interest} applied. New balance is {self.__balance}"
+
     def freeze_account(self):
         if not self.is_frozen:
             self.is_frozen = True
             return "Account has been frozen"
         return "Account is already frozen"
+
     def unfreeze_account(self):
         if self.is_frozen:
             self.is_frozen = False
             return f"Account {self.__account_number} has been unfrozen"
         return f"Account {self.__account_number} is not frozen"
+
     def account_statement(self):
         print(f"Statement for account: {self.__account_number} - {self.name}")
         for transaction in self.__transactions:
             print(transaction)
+
     def set_minimum_balance(self, amount):
         if amount >= 0:
             self.minimum_balance = amount
             return f"Minimum balance set to {amount}"
         return "Minimum balance cannot be negative"
+
     def close_account(self):
         self.__transactions.clear()
         self.__balance = 0
@@ -132,5 +142,3 @@ class Account:
 
 
         
-
-
